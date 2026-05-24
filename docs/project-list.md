@@ -14,135 +14,146 @@
 
 Lo que necesitás antes de escribir una línea de UI funcional.
 
-### 1.1 Supabase Setup
-- [ ] Crear proyecto en Supabase Cloud
-- [ ] Configurar variables de entorno (.env.local para admin, .env para mobile)
-- [ ] Instalar Supabase client en admin (`@supabase/supabase-js`)
-- [ ] Crear cliente Supabase compartido (`lib/supabase.ts`)
+### 1.1 Supabase Setup ✅
+- [x] Crear proyecto en Supabase Cloud
+- [x] Configurar variables de entorno (.env.local para admin)
+- [x] Instalar Supabase client en admin (`@supabase/supabase-js`)
+- [x] Crear cliente Supabase compartido (`lib/supabase.ts`)
 
-### 1.2 Schema de Base de Datos
-- [ ] Tabla `communities` (tenant principal)
-- [ ] Tabla `profiles` (datos de usuario extendidos, vinculado a auth.users)
-- [ ] Tabla `properties` (lotes/casas/departamentos)
-- [ ] Tabla `resident_properties` (relación N:N residente ↔ propiedad)
-- [ ] Tabla `roles` + `permissions` + `role_permissions` (RBAC dinámico)
-- [ ] Tabla `user_roles` (asignación de roles por comunidad)
-- [ ] Tabla `visits` (visitas temporales con QR)
-- [ ] Tabla `access_logs` (registro de entradas/salidas)
-- [ ] Tabla `news` (novedades/anuncios comunitarios)
-- [ ] Seed data: crear comunidad de prueba, roles default (admin, resident, guard)
+### 1.2 Schema de Base de Datos ✅
+- [x] Tabla `communities` (tenant principal)
+- [x] Tabla `profiles` (datos de usuario extendidos, vinculado a auth.users)
+- [x] Tabla `properties` (lotes/casas/departamentos)
+- [x] Tabla `resident_properties` (relación N:N residente ↔ propiedad)
+- [x] Tabla `roles` + `permissions` + `role_permissions` (RBAC dinámico)
+- [x] Tabla `user_roles` (asignación de roles por comunidad)
+- [x] Tabla `visits` (visitas temporales con QR)
+- [x] Tabla `access_logs` (registro de entradas/salidas)
+- [x] Tabla `news` (novedades/anuncios comunitarios)
+- [x] Seed data: comunidad "Barrio Los Álamos", 3 roles default, 21 permisos
 
-### 1.3 Row Level Security (RLS)
-- [ ] RLS en todas las tablas tenant-aware (`community_id`)
-- [ ] Políticas para admin (CRUD completo en su comunidad)
-- [ ] Políticas para resident (lectura propia, CRUD visitas propias)
-- [ ] Políticas para guard (lectura visitas activas, escritura access_logs)
+### 1.3 Row Level Security (RLS) ✅
+- [x] RLS en todas las tablas tenant-aware (`community_id`)
+- [x] Helper functions: `get_user_community_id()`, `user_has_permission()`
+- [x] Políticas para admin (CRUD completo en su comunidad)
+- [x] Políticas para resident (lectura propia, CRUD visitas propias)
+- [x] Políticas para guard (lectura visitas activas, escritura access_logs)
 
-### 1.4 Autenticación
-- [ ] Configurar auth en Supabase (email + magic link)
-- [ ] Flujo de login en admin dashboard
-- [ ] Middleware de protección de rutas en Next.js
-- [ ] Redirect a login si no autenticado
-- [ ] Mostrar datos del usuario logueado en topbar
+### 1.4 Autenticación ✅
+- [x] Configurar auth en Supabase (email + password)
+- [x] Flujo de login en admin dashboard
+- [x] AuthProvider context con protección de rutas
+- [x] Redirect a login si no autenticado
+- [x] Datos del usuario logueado en topbar + logout
 
 ---
 
 ## FASE 2 — Admin Dashboard (MVP funcional)
 
-Con el backend listo, construir las pantallas del admin.
+### 2.1 Dashboard Home ✅
+- [x] Stats reales: total residentes, propiedades, visitas activas, entradas hoy
+- [x] Lista de accesos recientes (últimas 10 entradas)
+- [x] Lista de últimas novedades publicadas
 
-### 2.1 Dashboard Home
-- [ ] Stats reales: total residentes, propiedades, visitas activas, entradas hoy
-- [ ] Lista de accesos recientes (últimas 10 entradas)
-- [ ] Lista de últimas novedades publicadas
+### 2.2 Gestión de Propiedades ✅
+- [x] Listado de propiedades (tabla con búsqueda)
+- [x] Crear propiedad (modal: nombre, tipo, dirección)
+- [x] Editar propiedad
+- [x] Eliminar propiedad
 
-### 2.2 Gestión de Propiedades
-- [ ] Listado de propiedades (tabla con búsqueda y filtros)
-- [ ] Crear propiedad (formulario: nombre/número, tipo, dirección, etc.)
-- [ ] Editar propiedad
-- [ ] Eliminar propiedad (soft delete)
+### 2.3 Gestión de Residentes ✅
+- [x] Listado de residentes (tabla con búsqueda)
+- [x] Crear residente (API route con service_role: crea auth user + profile + role + property)
+- [x] Editar datos de residente
+- [x] Activar/desactivar residente
 
-### 2.3 Gestión de Residentes
-- [ ] Listado de residentes (tabla con búsqueda)
-- [ ] Crear residente (invitar por email → crea cuenta en Supabase)
-- [ ] Asignar residente a propiedad
-- [ ] Editar datos de residente
-- [ ] Desactivar residente
+### 2.4 Gestión de Novedades ✅
+- [x] Listado de novedades (cards)
+- [x] Crear novedad (título, cuerpo)
+- [x] Editar novedad
+- [x] Publicar/despublicar toggle
+- [x] Eliminar novedad
 
-### 2.4 Gestión de Novedades
-- [ ] Listado de novedades
-- [ ] Crear novedad (título, cuerpo, visibilidad)
-- [ ] Editar novedad
-- [ ] Eliminar novedad
+### 2.5 Logs de Acceso ✅
+- [x] Listado de accesos con filtro por fecha
 
-### 2.5 Logs de Acceso
-- [ ] Listado de accesos con filtros (fecha, propiedad, tipo)
-- [ ] Detalle de acceso (quién, cuándo, validado por quién)
-
----
-
-## FASE 3 — App Mobile (Flutter) — MVP
-
-Esta es la app principal que usan residentes y guardias.
-
-### 3.1 Setup
-- [ ] Crear proyecto Flutter en `apps/mobile/`
-- [ ] Configurar Supabase client para Flutter (`supabase_flutter`)
-- [ ] Configurar deep links para magic link auth
-- [ ] Configurar push notifications (Firebase Cloud Messaging)
-- [ ] Estructura de carpetas (features, core, shared)
-
-### 3.2 Auth (Residente + Guardia)
-- [ ] Pantalla de login (email + magic link)
-- [ ] OTP como alternativa
-- [ ] Persistencia de sesión
-- [ ] Flujo de onboarding (primera vez → completar perfil)
-
-### 3.3 Residente — Features
-- [ ] Home con resumen (visitas activas, novedades recientes)
-- [ ] Crear visita (nombre visitante, fecha/hora, tipo: única/recurrente)
-- [ ] Generar QR dinámico para visita
-- [ ] Compartir QR por WhatsApp / mensaje
-- [ ] Listar mis visitas (activas, pasadas, expiradas)
-- [ ] Cancelar visita
-- [ ] Feed de novedades comunitarias
-- [ ] Perfil y configuración
-
-### 3.4 Guardia — Features
-- [ ] Home con visitas activas del día
-- [ ] Escáner de QR (cámara)
-- [ ] Validación de QR → mostrar datos de visita + residente + propiedad
-- [ ] Aprobar / rechazar entrada
-- [ ] Registro manual de entrada (sin QR)
-- [ ] Historial de accesos recientes
-
-### 3.5 QR System
-- [ ] Generación de QR con token firmado (JWT o similar)
-- [ ] Expiración por tiempo y por uso
-- [ ] Validación server-side (Edge Function en Supabase)
-- [ ] QR único por visita (no reutilizable)
-
-### 3.6 Notificaciones
-- [ ] Push notification al residente cuando su visita entra
-- [ ] Push notification al residente cuando su visita es rechazada
-- [ ] Notificación de nuevas novedades comunitarias
+### 2.6 Visitas (read-only) ✅
+- [x] Listado de visitas con filtro por estado (active/used/expired/cancelled)
 
 ---
 
-## FASE 4 — Pulido y Lanzamiento
+## FASE 3 — QR System + Edge Functions
 
-### 4.1 Testing
+### 3.1 Edge Functions ⏳ (código listo, falta deploy)
+- [x] `_shared/qr-jwt.ts` — Firma y verificación JWT (HMAC-SHA256)
+- [x] `_shared/supabase.ts` — Clientes admin y user para Edge Functions
+- [x] `_shared/cors.ts` — Headers CORS y helpers de respuesta
+- [x] `generate-qr/index.ts` — Genera token firmado para una visita
+- [x] `validate-qr/index.ts` — Valida token QR (firma, expiración, usos, estado, comunidad)
+- [x] `confirm-access/index.ts` — Aprueba entrada, crea access_log, incrementa usos
+- [ ] **Deploy** a Supabase (requiere CLI: `supabase functions deploy`)
+- [ ] **Set secret** QR_JWT_SECRET en Supabase
+
+### 3.2 Documentación ✅
+- [x] `docs/edge-functions.md` — Arquitectura, endpoints, payloads, deployment
+
+---
+
+## FASE 4 — App Mobile (Flutter) — MVP
+
+### 4.1 Setup ⏳ (código listo, falta Flutter SDK)
+- [x] Estructura de proyecto en `apps/mobile/`
+- [x] `pubspec.yaml` con todas las dependencias
+- [x] Configuración Supabase client
+- [x] Estructura de carpetas (features, core, shared)
+- [ ] **Ejecutar** `flutter pub get` (requiere macOS 14+ con Flutter SDK)
+
+### 4.2 Auth
+- [x] Pantalla de login (email + password)
+- [x] AuthProvider con Riverpod
+- [x] Redirect automático si no autenticado
+
+### 4.3 Residente — Features
+- [x] Home con resumen (visitas activas, novedades recientes, quick actions)
+- [x] Crear visita (nombre, documento, propiedad, tipo, max uses, expiración, notas)
+- [x] Generar QR dinámico (llama a Edge Function + qr_flutter)
+- [x] Compartir QR por WhatsApp / mensaje (share_plus)
+- [x] Listar mis visitas (con filter chips: active/used/expired/all)
+- [x] Cancelar visita
+- [x] Feed de novedades comunitarias (con relative time)
+- [x] Perfil y configuración (info, propiedades, sign out)
+
+### 4.4 Guardia — Features
+- [x] Escáner de QR (mobile_scanner con overlay)
+- [x] Validación de QR → mostrar datos de visita + residente + propiedad
+- [x] Aprobar entrada (llama a confirm-access Edge Function)
+- [x] Resultado visual (✅ valid / ❌ invalid con razón)
+- [x] "Scan Another" para siguiente visitante
+
+### 4.5 Navegación
+- [x] GoRouter con auth redirect
+- [x] Bottom nav shell (Home, Visits, Scan, News, Profile)
+- [x] Deep linking a visit detail
+
+### 4.6 Documentación ✅
+- [x] `docs/mobile-app.md` — Arquitectura, estructura, flujos, dependencias
+
+---
+
+## FASE 5 — Pulido y Lanzamiento
+
+### 5.1 Testing
 - [ ] Testing manual del flujo completo: admin crea propiedad → invita residente → residente crea visita → guardia valida QR
 - [ ] Testing en dispositivos reales (iOS + Android)
 - [ ] Edge cases: QR expirado, visita cancelada, residente desactivado
 
-### 4.2 Deploy
-- [ ] Supabase en producción (migrar de dev a prod)
+### 5.2 Deploy
+- [ ] Deploy Edge Functions a Supabase
 - [ ] Admin dashboard: deploy en Vercel
 - [ ] App mobile: build de release iOS (TestFlight)
 - [ ] App mobile: build de release Android (APK / Play Internal Testing)
 
-### 4.3 Piloto
+### 5.3 Piloto
 - [ ] Conseguir 1 comunidad piloto
 - [ ] Onboarding: cargar propiedades y residentes
 - [ ] Feedback loop: iteración rápida sobre problemas reales
@@ -152,18 +163,25 @@ Esta es la app principal que usan residentes y guardias.
 ## Orden de ejecución recomendado
 
 ```
-FASE 1 (Foundation)     → 1.1 → 1.2 → 1.3 → 1.4
+FASE 1 (Foundation)     → 1.1 ✅ → 1.2 ✅ → 1.3 ✅ → 1.4 ✅
                               ↓
-FASE 2 (Admin)          → 2.2 → 2.3 → 2.4 → 2.1 → 2.5
+FASE 2 (Admin)          → 2.2 ✅ → 2.3 ✅ → 2.4 ✅ → 2.1 ✅ → 2.5 ✅ → 2.6 ✅
                               ↓
-FASE 3 (Mobile)         → 3.1 → 3.2 → 3.3 → 3.5 → 3.4 → 3.6
+FASE 3 (QR + Edge Fn)   → 3.1 ⏳ (code done, deploy pending)
                               ↓
-FASE 4 (Lanzamiento)    → 4.1 → 4.2 → 4.3
+FASE 4 (Mobile)         → 4.1 ⏳ → 4.2 ✅ → 4.3 ✅ → 4.4 ✅ → 4.5 ✅
+                              ↓
+FASE 5 (Lanzamiento)    → 5.1 → 5.2 → 5.3
 ```
 
-Propiedades antes que residentes (porque un residente se asigna a una propiedad).
-El dashboard home (2.1) se hace después porque necesita datos reales.
-QR system (3.5) antes de guardia (3.4) porque el guardia depende del escáner.
+---
+
+## Próximos pasos inmediatos
+
+1. **Deploy Edge Functions** → necesita Supabase CLI (`npx supabase functions deploy`)
+2. **Probar Flutter app** → necesita MacBook nuevo con macOS 14+
+3. **Test flujo completo** end-to-end
+4. **Deploy admin a Vercel**
 
 ---
 
@@ -179,3 +197,8 @@ QR system (3.5) antes de guardia (3.4) porque el guardia depende del escáner.
 - IoT / smart gates / CCTV
 - AI monitoring
 - EV / energía
+- Push notifications (Firebase Cloud Messaging)
+- Magic link / OTP auth
+- Registro manual de entrada (sin QR)
+- Onboarding flow para primer login
+

@@ -1,0 +1,51 @@
+name: nimbus_mobile
+description: Nimbus - Mobile app for private communities
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.2.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Supabase
+  supabase_flutter: ^2.8.0
+
+  # State Management
+  flutter_riverpod: ^2.6.1
+  riverpod_annotation: ^2.6.1
+
+  # Navigation
+  go_router: ^14.8.1
+
+  # QR
+  qr_flutter: ^4.1.0
+  mobile_scanner: ^6.0.2
+
+  # UI
+  google_fonts: ^6.2.1
+  flutter_svg: ^2.0.17
+  cached_network_image: ^3.4.1
+  shimmer: ^3.0.0
+
+  # Utils
+  intl: ^0.19.0
+  url_launcher: ^6.3.1
+  share_plus: ^10.1.4
+  flutter_secure_storage: ^9.2.4
+
+  # Icons
+  lucide_icons: ^0.257.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  riverpod_generator: ^2.6.3
+  build_runner: ^2.4.14
+
+flutter:
+  uses-material-design: true
+
